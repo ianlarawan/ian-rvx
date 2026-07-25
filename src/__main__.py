@@ -40,7 +40,7 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
 
     # Check file contents to determine source type
     for file in download_files:
-        if "morphe-cli" in file.name.lower():
+        if "morphe-desktop" in file.name.lower():
             is_morphe = True
             break
         elif "revanced-cli" in file.name.lower():
@@ -67,7 +67,7 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
     # FIND FILES BASED ON DETECTED TYPE
     if is_morphe:
         # Find Morphe files - prefer non-dev version
-        cli = utils.find_file(download_files, contains="morphe-cli", suffix=".jar", exclude=["dev"])
+        cli = utils.find_file(download_files, contains="morphe-desktop", suffix=".jar", exclude=["dev"])
         if not cli:
             # Fallback to any Morphe CLI
             cli = utils.find_file(download_files, contains="morphe", suffix=".jar")
