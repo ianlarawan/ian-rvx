@@ -350,6 +350,14 @@ def main():
                 arches = config["arches"]
                 break
         
+        # Search for tools in root directory dynamically for correct version output
+        root_files = list(Path(".").glob("*"))
+        detected_patches = utils.find_file(root_files, contains="patches", suffix=".mpp") or utils.find_file(root_files, suffix=".mpp")
+        detected_cli = utils.find_file(root_files, contains="morphe-desktop", suffix=".jar") or utils.find_file(root_files, suffix=".jar")
+
+        patches_str = str(detected_patches) if detected_patches else "patches"
+        cli_str = str(detected_cli) if detected_cli else "cli"
+
         # Build for each architecture
         built_apks = []
         for arch in arches:
@@ -359,8 +367,8 @@ def main():
                 built_apks.append(apk_path)
                 print(f"✅ Built {arch} version: {Path(apk_path).name}")
                 
-                # Trigger the GitHub release creation framework natively
-                release.create_github_release(app_name, "patches", "cli", apk_path)
+                # Pass resolved file strings so release.py parses correct version numbers
+                release.create_github_release(app_name, patches_str, cli_str, apk_path)
         
         # Summary
         print(f"\n🎯 Built {len(built_apks)} APK(s) for {app_name}:")
