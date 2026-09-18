@@ -105,7 +105,7 @@ def run_build(app_name: str, source: str, arch: str = "universal") -> str:
         downloader.download_aptoide
     ]
 
-input_apk = None
+    input_apk = None
     version = None
     candidates: list[str] = []
     used_method = None
@@ -248,7 +248,7 @@ input_apk = None
                     logging.info("Trying alternative Morphe command format...")
                     morphe_cmd = [
                         "java", "-jar", str(cli),
-                        "--patches", str(patches),
+                        "patch", "--patches", str(patches),
                         "--input", str(input_apk),
                         "--output", str(output_apk)
                     ]
